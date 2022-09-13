@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestPropertySource("/application.properties")
+@TestPropertySource("/application-test.properties")
 @AutoConfigureMockMvc
 @SpringBootTest
 public class GradeBookControllerTest {
@@ -123,6 +123,52 @@ public class GradeBookControllerTest {
     @Test
     public void deleteStudentHttpRequestErrorPage() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/delete/student/{id}", 0))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = result.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
+
+    @Test
+    public void studentInformationHttpRequest() throws Exception {
+        assertTrue(studentRepository.findById(1).isPresent());
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/studentInformation/{id}", 1))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = result.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "studentInformation");
+    }
+
+    @Test
+    public void studentInformationErrorPage() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/studentInformation/{id}", 0))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = result.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
+
+    @Test
+    public void gradesHttpRequestErrorPageWrongStudent() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/grades")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("grade", "85.00")
+                        .param("gradeType", "math")
+                        .param("studentId", "100"))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = result.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
+
+    @Test
+    public void gradesHttpRequestErrorPageWrongSubject() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/grades")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("grade", "85.00")
+                        .param("gradeType", "literature")
+                        .param("studentId", "1"))
                 .andExpect(status().isOk()).andReturn();
 
         ModelAndView mav = result.getModelAndView();

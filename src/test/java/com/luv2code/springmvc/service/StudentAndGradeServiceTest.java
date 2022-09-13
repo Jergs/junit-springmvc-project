@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestPropertySource("/application.properties")
+@TestPropertySource("/application-test.properties")
 @SpringBootTest
 @Transactional
 public class StudentAndGradeServiceTest {
