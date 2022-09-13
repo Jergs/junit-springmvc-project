@@ -1,5 +1,9 @@
 package com.luv2code.springmvc.models;
 
+import lombok.Builder;
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
 public class GradebookCollegeStudent extends CollegeStudent{
 
     private int id;

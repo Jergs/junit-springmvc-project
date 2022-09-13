@@ -7,9 +7,9 @@ public interface Grade {
 
     void setId(int id);
 
-    int getStudentId();
+    CollegeStudent getStudent();
 
-    void setStudentId(int studentId);
+    void setStudent(CollegeStudent student);
 
     void setGrade(double grade);
 }

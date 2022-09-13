@@ -8,13 +8,23 @@ public class HistoryGrade implements Grade {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(name="student_id")
-    private int studentId;
     @Column(name="grade")
     private double grade;
 
-    public HistoryGrade() {
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private CollegeStudent student;
 
+    public HistoryGrade() {
+    }
+
+    @Override
+    public CollegeStudent getStudent() {
+        return student;
+    }
+
+    public void setStudent(CollegeStudent student) {
+        this.student = student;
     }
 
     public HistoryGrade(double grade) {
@@ -27,14 +37,6 @@ public class HistoryGrade implements Grade {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
     }
 
     @Override

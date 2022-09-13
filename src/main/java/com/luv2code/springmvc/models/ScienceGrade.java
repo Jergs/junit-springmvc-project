@@ -8,10 +8,12 @@ public class ScienceGrade implements Grade {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(name="student_id")
-    private int studentId;
     @Column(name="grade")
     private double grade;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private CollegeStudent student;
 
     public ScienceGrade() {
 
@@ -29,12 +31,13 @@ public class ScienceGrade implements Grade {
         this.id = id;
     }
 
-    public int getStudentId() {
-        return studentId;
+    @Override
+    public CollegeStudent getStudent() {
+        return student;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setStudent(CollegeStudent student) {
+        this.student = student;
     }
 
     @Override
